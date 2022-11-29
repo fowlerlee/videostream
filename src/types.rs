@@ -23,7 +23,7 @@ pub struct Video{
 
 type UserStore = HashMap<Principal,  User>;
 
-#[derive(Clone, CandidType, Serialize, Deserialize, Default)]
+#[derive(Clone, CandidType, Serialize, Deserialize)]
 pub struct VideoStreamingCompany {
     pub user_store: UserStore,
     pub user_count: u128,
