@@ -5,6 +5,7 @@ use ic_cdk::export::{
     serde::Serialize,
     Principal,
 };
+use ic_cdk::api::{caller as caller_api};
 use std::cell::RefCell;
 
 use types::VideoStreamingCompany;
@@ -16,7 +17,11 @@ thread_local!{
 }
 
 fn get_caller() -> Principal{
-    ic_cdk::caller()
+    let caller = caller_api();
+    if caller == Principal::anonymous() {
+        panic!("Anonymous principal not allowed to make calls.")
+    }
+    caller
 }
 
 impl Default for VideoStreamingCompany {
