@@ -7,6 +7,7 @@ use ic_cdk::export::{
 };
 use ic_cdk::api::{caller as caller_api};
 use std::cell::RefCell;
+use ic_cdk_macros::*;
 
 use types::VideoStreamingCompany;
 
@@ -44,6 +45,17 @@ impl VideoStreamingCompany {
     fn _get_user_count() -> u128 {
         0u128
     }
+}
+
+#[update(name = "add_note")]
+fn add_user(user_principal: Principal, user: types::User) {
+    USER_STORE.with(|us|
+       if let Some(_item) = us.borrow_mut().get_mut(&user_principal) {
+            // the user already exists in the storage
+       } else {
+            us.borrow_mut().insert(user_principal, user); 
+       }
+    );
 }
 
 

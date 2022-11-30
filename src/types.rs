@@ -28,3 +28,8 @@ pub struct VideoStreamingCompany {
     pub user_store: UserStore,
     pub user_count: u128,
 }
+
+pub enum Result<E, T> {
+    Err(E),
+    Ok(T)
+}
