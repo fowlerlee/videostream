@@ -1,5 +1,6 @@
 mod types;
 use ic_cdk::api::caller as caller_api;
+use ic_cdk::export::candid::types::ic_types::principal;
 use ic_cdk::export::{candid::Deserialize, serde::Serialize, Principal};
 use ic_cdk_macros::*;
 use std::cell::RefCell;
@@ -37,10 +38,26 @@ impl VideoStreamingCompany {
             user_count: 0u128,
         }
     }
+}
 
-    fn _get_user_count() -> u128 {
-        0u128
+fn is_user_registered(user_principal: Principal) -> bool {
+    USER_STORE.with(|s|s.borrow().contains_key(&user_principal))
+}
+
+fn delete_user(user_principal: Principal) {
+    let caller = get_caller();
+    assert_eq!(caller, user_principal);
+    assert!(is_user_registered(user_principal));
+
+    if let Some(value) = USER_STORE.with(|users|users.borrow_mut().clone().remove(&user_principal)){
+        //handle case user is removed
+    } else {
+        //handle case user is not present - do nothing
     }
+}
+
+fn get_user_count() -> u128 {
+    USER_STORE.with(|size| size.borrow().keys().len()) as u128
 }
 
 #[update(name = "add_note")]
@@ -68,6 +85,13 @@ mod tests {
                 token_number: (10.2),
             },
         );
+    }
+
+    #[test]
+    fn test_get_user_count(){
+        let x = get_user_count();
+        let y = USER_STORE.with(|s|s.borrow().keys().len()) as u128;
+        assert_eq!(x, y)
     }
     
     #[test]
