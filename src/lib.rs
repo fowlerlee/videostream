@@ -27,15 +27,17 @@ impl Default for VideoStreamingCompany {
         VideoStreamingCompany {
             user_store: HashMap::default(),
             user_count: 0u128,
+            
         }
     }
 }
 
 impl VideoStreamingCompany {
-    fn new() -> VideoStreamingCompany {
+    pub fn new() -> Self {
         VideoStreamingCompany {
             user_store: HashMap::default(),
             user_count: 0u128,
+        
         }
     }
 }
