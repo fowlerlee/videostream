@@ -33,3 +33,10 @@ pub enum Result<E, T> {
     Err(E),
     Ok(T)
 }
+
+#[derive(CandidType, Serialize, Deserialize, Clone, Debug, Hash)]
+pub struct TransferArgs {
+    amount: Token,
+    to_principal: Principal,
+    // to_subaccount: Option<Subaccount>,
+}
