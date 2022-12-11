@@ -1,6 +1,7 @@
 use std::{collections::HashMap, str};
 use std::cell::RefCell;
 use std::rc::Rc;
+use std::borrow::Cow;
 use ic_cdk::export::{
     candid::{CandidType, Deserialize},
     serde::Serialize,
@@ -39,4 +40,19 @@ pub struct TransferArgs {
     amount: Token,
     to_principal: Principal,
     // to_subaccount: Option<Subaccount>,
+}
+
+#[derive(CandidType, Deserialize)]
+struct HttpRequest {
+    method: String,
+    url: String,
+    headers: HashMap<String, String>,
+    body: Vec<u8>,
+}
+
+#[derive(CandidType)]
+struct HttpResponse<'a> {
+    status_code: u16,
+    headers: HashMap<&'a str, Cow<'a, str>>,
+    body: Cow<'a, [u8]>,
 }
