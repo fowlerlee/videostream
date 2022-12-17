@@ -1,12 +1,13 @@
 mod types;
 use ic_cdk::api::caller as caller_api;
+use ic_cdk::export::candid::Error;
 use ic_cdk::export::candid::types::ic_types::principal;
 use ic_cdk::export::{candid::Deserialize, serde::Serialize, Principal};
 use ic_cdk_macros::*;
 use std::cell::RefCell;
 use std::collections::{BTreeMap, HashMap};
 
-use types::VideoStreamingCompany;
+use types::{VideoStreamingCompany, User, Result};
 
 thread_local! {
     static VIDEO: RefCell<VideoStreamingCompany> = RefCell::default();
@@ -61,6 +62,17 @@ fn delete_user(user_principal: Principal) {
 fn get_user_count() -> u128 {
     USER_STORE.with(|size| size.borrow().keys().len()) as u128
 }
+
+// fn get_user(user: Principal) -> Result<String, Option<types::User>> {
+//        if is_user_registered(user) {
+//             USER_STORE.with(|s| 
+//     //             {s.borrow_mut().get(&user)}
+//     //         )
+//     //    }else {
+//     //        return Err("().to_string")
+//     //    }
+
+// }
 
 #[update(name = "add_note")]
 fn add_user(user_principal: Principal, user: types::User) {
