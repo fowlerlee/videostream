@@ -22,6 +22,11 @@ pub struct Video{
     pub id: i128,
 }
 
+#[derive(Clone, CandidType, Serialize, Deserialize, Default)]
+pub struct StoredVideo{
+    pub store: Box<HashMap<i128, u8>>,
+}
+
 type UserStore = HashMap<Principal,  User>;
 
 #[derive(Clone, CandidType, Serialize, Deserialize)]
